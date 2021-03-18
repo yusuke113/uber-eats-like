@@ -21,7 +21,7 @@ module Api
 
       def create
         # models/line_food.rbで定義した scope:other_restaurant
-        if LineFoods.active.other_restaurant(@ordered_food.restaurant.id).exists?
+        if LineFood.active.other_restaurant(@ordered_food.restaurant.id).exists?
           return render json: {
             existing_restaurant: LineFood.other_restaurant(@ordered_food.restaurant.id).first.restaurant.name,
             new_restaurant: Food.find(params[:food_id]).restaurant.name
@@ -42,7 +42,7 @@ module Api
 
       def replace
         LineFood.active.other_restaurant(@ordered_food.restaurant_id).each do |line_food|
-          line_food.uodate_attribute(:active, false)
+          line_food.update_attribute(:active, false)
         end
         
         set_line_food(@ordered_food)
