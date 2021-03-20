@@ -7,6 +7,10 @@ import { Link } from 'react-router-dom';
 import { OrderDetailItem } from '../components/OrderDetailItem';
 import { OrderButton } from '../components/Buttons/OrderButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {
+  HeaderWrapper,
+  MainLogoImage
+} from '../components/StyledHeader'
 
 // api 
 import { fetchLineFoods } from '../apis/line_foods';
@@ -24,16 +28,6 @@ import MainLogo from '../images/logo.png';
 
 // constants 
 import { REQUEST_STATE } from '../constants';
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  padding: 8px 32px;
-`;
-
-const MainLogoImage = styled.img`
-  height: 90px;
-`;
 
 const OrderListWrapper = styled.div`
   display: flex;
@@ -83,6 +77,10 @@ export const Orders = () => {
     }
   };
 
+  const isExistsLineFoodsSummary = () => (
+    state.fetchState === REQUEST_STATE.OK && state.lineFoodsSummary
+  )
+
   return (
     <Fragment>
       <HeaderWrapper>
@@ -111,7 +109,7 @@ export const Orders = () => {
           </OrderItemWrapper>
           <div>
             {
-              state.fetchState === REQUEST_STATE.OK && state.lineFoodsSummary && 
+              isExistsLineFoodsSummary() &&
                 <OrderButton
                   onClick={() => postLineFoods()}
                   disabled={state.postState === REQUEST_STATE.LOADING || state.postState === REQUEST_STATE.OK}
